@@ -3,11 +3,34 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { WagmiConfig, createClient, chain } from "wagmi";
+import { ConnectKitProvider, getDefaultClient } from "connectkit";
+import Modal from "react-modal";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+Modal.setAppElement('#root');
+
+const alchemyId = process.env.ALCHEMY_ID;
+
+const chains = [chain.mainnet, chain.goerli];
+
+const client = createClient(
+  getDefaultClient({
+    appName: "BlackAdam",
+    alchemyId,
+    chains,
+  })
+);
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root")
+);
 root.render(
   <React.StrictMode>
-    <App />
+    <WagmiConfig client={client}>
+      <ConnectKitProvider>
+        <App />
+      </ConnectKitProvider>
+    </WagmiConfig>
   </React.StrictMode>
 );
 
