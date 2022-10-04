@@ -3,8 +3,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Modal from "react-modal";
 import { AiOutlineClose } from "react-icons/ai";
-
-
 import "./Home.css";
 
 const customStyles = {
@@ -21,10 +19,13 @@ const customStyles = {
 const Home = () => {
   const { address } = useAccount();
   const [protocol, setProtocol] = useState("ethereum");
-  const [determinant, setDeterminant] = useState("address");
-  const [searchAddress, setSearchAddress] = useState("");
+ // const [determinant, setDeterminant] = useState("address");
+  //const [searchAddress, setSearchAddress] = useState("");
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState([]);
+  const [showModal, setShowModal] = useState(false)
+  const [wallet, setWallet] = useState(null)
 
   let subtitle;
 
@@ -35,13 +36,7 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
-    console.log({ protocol, address });
-
-    if (searchAddress.length === 18) {
-    }
-
     const { data } = await axios.get(
       `https://ubiquity.api.blockdaemon.com/v1/${protocol}/mainnet/txs`,
       config
@@ -52,8 +47,7 @@ const Home = () => {
     setLoading(false);
   };
 
-  const [selectedEvent, setSelectedEvent] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+;
 
   const handleEvent = async (id) => {
     let resp = result.filter((txn) => txn.id === id);
@@ -63,14 +57,9 @@ const Home = () => {
     setSelectedEvent(resp[0].events);
   };
 
-
-  const [wallet, setWallet] = useState(null)
-
-
   const getAddress = async() => {
     const {data} = await axios.get(`https://ubiquity.api.blockdaemon.com/v1/${protocol}/goerli/account/${address}`, config)
-
-    console.log(data[0]);
+    //console.log(data[0]);
     setWallet(data[0]);
   }
 
@@ -85,14 +74,6 @@ const Home = () => {
       <div className="row">
         <div className="column2">
           <img src="/search-image.png" alt="banner" width="600px" />
-        </div>
-
-
-        <div>
-          {wallet && (
-            <>{wallet.comfirmed_balance} {" "} {wallet.currency.symbol}</>
-          )}
-          
         </div>
 
         <div className="column1">
@@ -116,36 +97,17 @@ const Home = () => {
                   <option value={"polkadot"}>Polkadot</option>
                 </select>
 
-                <select
-                  onChange={(e) => setDeterminant(e.target.value)}
-                  name=""
-                  id=""
-                  className="dropbtn"
-                >
-                  <option value={"address"}>Address</option>
-                  <option value={"block_id"}>Block ID</option>
-                  <option value={"transaction_hash"}>Transaction Hah</option>
-                </select>
-                {/* <button onclick={() => setNetwork(true)} className="dropbtn">
-                Network
-              </button>
-
-              {
-                network && (
-                    <div id="myDropdown" className="dropdown-content">
-                        <a href="#">Solana</a>
-                        <a href="#">Avalanche</a>
-                        <a href="#">Alogrand</a>
-                        <a href="#">Fantom</a>
-                        <a href="#">Polkadot</a>
-                    </div>
-
-                )
-              } */}
               </div>
               <button type="submit" id="fetchdata">
                 {loading ? "Loading..." : "Get Details"}
               </button>
+
+              <div className="wallet-display"> 
+                {wallet && (
+                  <>{(wallet?.confirmed_balance / 1e18).toFixed(4)} {""} {wallet?.currency.symbol}</>
+                )}
+                
+              </div>
             </div>
           </form>
         </div>
@@ -154,35 +116,34 @@ const Home = () => {
       <table>
         <thead>
           <tr>
-            <th>Block Id</th>
+            <th>Block ID</th>
             <th>Block Number</th>
             <th>Status</th>
-            <th>Confirmations</th>
-            <th>No of event</th>
+            {/* <th>Confirmations</th> */}
+            <th>No of Event</th>
+            <th> Action</th>
           </tr>
         </thead>
         <tbody>
           {Array.isArray(result) && result.length === 0 ? (
             <tr className="mb-4">
               <td colSpan={7} className="">
-                Input a valid address in the search field above!
+                Click on getdetails button to fetch the latest transaction. you can also change the network also
               </td>
             </tr>
           ) : (
             result?.map((res, index) => {
               return (
                 <tr key={index}>
-                  <td>{`${res?.block_id?.slice(0, 6)}...${res?.block_id.slice(
-                    -6
-                  )}`}</td>
+                  <td>{`${res?.block_id}`}</td>
                   <td>{res?.block_number}</td>
                   <td>
                     {res?.status?.charAt(0).toUpperCase() + res.status.slice(1)}
                   </td>
-                  <td>{res?.confirmations}</td>
+                  {/* <td>{res?.confirmations}</td> */}
                   <td>{res?.num_events}</td>
                   <td>
-                    <button onClick={() => handleEvent(res?.id)}>Event</button>
+                    <button id="event-btn" onClick={() => handleEvent(res?.id)}>Event</button>
                   </td>
                 </tr>
               );

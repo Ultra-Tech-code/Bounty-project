@@ -1,9 +1,13 @@
 /*****************DROPDOWN SECTION********************************/
 .dropbtn {
-  padding: 16px;
-  font-size: 16px;
   border: none;
   cursor: pointer;
+  width: 150px;
+  padding: 12px 20px;
+  border-radius: 20px;
+  color: blue;
+  font-size: 17px;
+  font-weight: 600;
 }
 
 .dropdown {
@@ -11,7 +15,7 @@
   display: inline-block;
 }
 
-.dropdown-content {
+/* .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
@@ -19,10 +23,43 @@
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+} */
+table {
+  border-collapse: collapse;
+  border-bottom: 2px solid #009879;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin: auto;
 }
 
-.dropdown-content a {
-  color: black;
+td, th {
+  text-align: left;
+  padding: 8px;
+}
+table th{
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+tr:hover {
+  background-color: #D6EEEE;
+  color: blue;
+  font-weight: bold;
+}
+#event-btn{
+  color: #009879;
+  background-color: #ffffff;
+  font-weight: bold;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+
+.dropdown option {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -35,7 +72,6 @@
 .show {
   display: block;
 }
-
 
 .row {
   display: flex;
@@ -60,14 +96,28 @@
   font-size: 25px;
   margin-bottom: 20px;
 }
-.column1 button {
+.column1 button{
   width: 150px;
-  padding: 12px 20px;
+  padding: 10px 10px;
   border-radius: 20px;
   border-style: none;
   color: blue;
   font-size: 17px;
   font-weight: 600;
+  margin-left: 15px;
+  margin-top: 3px;
+  margin-bottom: 13px;
+}
+.wallet-display{
+  width: 100px;
+  padding: 12px 20px;
+  border-radius: 20px;
+  border-style: none;
+  color: blue;
+  font-size: 17px;
+  font-weight: 60;
+  background-color: #ddd;
+  margin: 2% 5%;
 }
 /* Header content responsive */
 @media screen and (max-width: 980px) {
