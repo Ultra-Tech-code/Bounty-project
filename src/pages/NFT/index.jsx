@@ -24,66 +24,49 @@ const NFT = () => {
   const [searchAddress, setSearchAddress] = useState("");
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   let subtitle;
 
   let token = "bd1b4uvVUUl8KUHvGEscJT8K1C98kU8qSNnPFG2JcUPV0Hi";
   const config = {
     headers: { Authorization: `Bearer ${token}` },
-  };
-
-  //transaction by hash
-    // https://ubiquity.api.blockdaemon.com/v1/{protocol}/{network}/tx/{id}
-
-    //block transaction
-    // https://ubiquity.api.blockdaemon.com/v1/{protocol}/{network}/block/{block_identifier}
-
-    //nft
-    // https://svc.blockdaemon.com/nft/v1/${protocol}/mainnet/assets?wallet_address=${userAddress},
-
-    // https://ubiquity.api.blockdaemon.com/v1/{protocol}/{network}/account/{address}
-    // console.log(data?.data);    
+  }; 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // setLoading(true);
-    console.log({ protocol, address, searchAddress });
-
-
+    
     if (searchAddress === "") {
+      setLoading(true);
       const { data } = await axios.get(
-        `https://ubiquity.api.blockdaemon.com/nft/v1/${protocol}/mainnet/assets?wallet_address=${searchAddress}`,
+        `https://ubiquity.api.blockdaemon.com/nft/v1/${protocol}/mainnet/assets?wallet_address=${address}`,
         config
       );
-      console.log(data?.data);
+      setLoading(false);
       setResult(data?.data);
+      //fetchImAGE();
     } else {
+      setLoading(true);
       const { data } = await axios.get(
         `https://ubiquity.api.blockdaemon.com/nft/v1/${protocol}/mainnet/assets?wallet_address=${searchAddress}`,
         config
       );
-      console.log(data?.data);
+      setLoading(false);
       setResult(data?.data);
+      //fetchImAGE(data?.data);
     }
-
-    //transaction by hash
-    // https://ubiquity.api.blockdaemon.com/v1/{protocol}/{network}/tx/{id}
-
-    //block transaction
-    // https://ubiquity.api.blockdaemon.com/v1/{protocol}/{network}/block/{block_identifier}
-
-    //nft
-    // https://svc.blockdaemon.com/nft/v1/${protocol}/mainnet/assets?wallet_address=${userAddress},
-
-    // https://ubiquity.api.blockdaemon.com/v1/{protocol}/{network}/account/{address}
-    // console.log(data?.data);
-    setLoading(false);
   };
 
-  const [selectedEvent, setSelectedEvent] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-
+  // const fetchImAGE = async () => {
+  //     setLoading(true);
+  //     const { data } = await axios.get(
+  //       `https://ubiquity.api.blockdaemon.com/nft/v1/${protocol}/mainnet/media/${res?.image_url}`,
+  //       config
+  //     );
+  //     setLoading(false);
+  //     console.log(data?.data);
+  // }
   const handleEvent = async (id) => {
     let resp = result.filter((txn) => txn.id === id);
 
@@ -123,10 +106,11 @@ const NFT = () => {
                   <option value={"polkadot"}>Polkadot</option>
                 </select>
               </div>
+              
               <button type="submit" id="fetchdata">
               {loading ? "Loading..." : "Get Details"}
-                
               </button>
+        
             </div>
           </form>
         </div>
@@ -138,7 +122,7 @@ const NFT = () => {
             <th>Name</th>
             <th>Token Id</th>
             <th>Contract Address</th>
-            {/* <th>IMAGE</th> */}
+            <th>Image</th>
             {/* <th></th> */}
           </tr>
         </thead>
@@ -160,10 +144,10 @@ const NFT = () => {
                   {`${res?.token_id?.slice(0, 6)}...${res?.token_id.slice(-6)}`}
                   </td>
                   <td>
-                  {`${res?.contract_address?.slice(0, 6)}...${res?.contract_address.slice(-6)}`}
+                  {`${res?.contract_address}`}
                   </td>
                   <td>
-                    <img src={res?.image_url} alt="" />
+                    <img src={axios.get(`https://ubiquity.api.blockdaemon.com/nft/v1/${protocol}/mainnet/media/${res?.image_url}`, config)} alt="nft image" />
                   </td>
                 </tr>
               );
@@ -171,9 +155,8 @@ const NFT = () => {
           )}
         </tbody>
       </table>
-      {/* </div> */}
 
-      <Modal
+      {/* <Modal
         isOpen={showModal}
         onRequestClose={() => setShowModal(!showModal)}
         style={customStyles}
@@ -200,45 +183,31 @@ const NFT = () => {
                 </tr>
               </thead>
 
-              <tbody className="bg-white divide-y divide-gray-300">
+              <tbody>
                 {Array.isArray(selectedEvent) &&
                 selectedEvent.length === 0 ? (
-                  <tr className="mb-4">
-                    <td
-                      colSpan={7}
-                      className="font-medium whitespace-nowrap text-center px-1 md:px-3 py-3"
-                    >
+                  <tr>
+                    <td colSpan={7}>
                       Transaction has no event!
                     </td>
                   </tr>
                 ) : (
                   selectedEvent?.slice(0, 5)?.map((event, index) => {
                     return (
-                      <tr className="mb-4" key={event.id}>
-                        <td className="whitespace-nowrap truncate md:px-4 px-2 py-3">
-                          {`${event?.transaction_id.slice(
-                            0,
-                            6
-                          )}...${event?.transaction_id.slice(-6)}`}
+                      <tr key={event.id}>
+                        <td>
+                          {`${event?.transaction_id.slice(0,6)}...${event?.transaction_id.slice(-6)}`}
                         </td>
-                        <td className="text-sm truncate whitespace-nowrap md:px-3 px-1 py-3">
-                          {`${event?.source.slice(
-                            0,
-                            9
-                          )}...${event?.source.slice(-9)}`}
+                        <td>
+                          {`${event?.source.slice(0,9)}...${event?.source.slice(-9)}`}
                         </td>
-                        <td className="text-sm truncate whitespace-nowrap md:px-3 px-1 py-3">
-                          {event?.type === "transfer"
-                            ? `${event?.destination.slice(
-                                0,
-                                9
-                              )}...${event?.destination.slice(-9)}`
-                            : "-"}
+                        <td>
+                          {event?.type === "transfer" ? `${event?.destination.slice(0,9)}...${event?.destination.slice(-9)}`: "-"}
                         </td>
-                        <td className="text-sm truncate whitespace-nowrap md:px-3 px-1 py-3">
+                        <td>
                           {(event?.amount / 1e18).toFixed(6)}
                         </td>
-                        <td className="text-sm truncate whitespace-nowrap md:px-3 px-1 py-3">
+                        <td>
                           {event?.denomination}
                         </td>
                       </tr>
@@ -249,7 +218,7 @@ const NFT = () => {
             </table>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </Fragment>
   );
 };

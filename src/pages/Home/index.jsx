@@ -102,7 +102,7 @@ const Home = () => {
                 {loading ? "Loading..." : "Get Details"}
               </button>
 
-              <div className="wallet-display"> 
+              <div className="wallet-display glow-on-hover"> 
                 {wallet && (
                   <>{(wallet?.confirmed_balance / 1e18).toFixed(4)} {""} {wallet?.currency.symbol}</>
                 )}

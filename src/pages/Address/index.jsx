@@ -94,14 +94,6 @@ const Address = () => {
                 </select>
               </div>
 
-              {/* <button type="submit" class="button-82-pushable" role="button">
-              <span class="button-82-shadow"></span>
-              <span class="button-82-edge"></span>
-              <span class="button-82-front text">
-              
-              </span>
-            </button>  */}
-
               <button type="submit" id="fetchdata">
               {loading ? "Loading..." : "Get Details"}
                 
