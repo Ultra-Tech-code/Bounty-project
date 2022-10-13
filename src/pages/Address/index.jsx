@@ -69,7 +69,7 @@ const Address = () => {
         </div>
 
         <div className="column1">
-          <h1>Details About Your Address</h1>
+          <h1>Everything About Address!!!</h1>
 
           <form onSubmit={handleSubmit}>
 

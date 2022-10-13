@@ -41,9 +41,7 @@ const Home = () => {
       `https://ubiquity.api.blockdaemon.com/v1/${protocol}/mainnet/txs`,
       config
     );
-    // https://ubiquity.api.blockdaemon.com/v1/{protocol}/{network}/account/{address} 
     setResult(data?.data);
-    console.log(data?.data);
     setLoading(false);
   };
 
@@ -77,7 +75,7 @@ const Home = () => {
         </div>
 
         <div className="column1">
-          <h1>Details About Your Address</h1>
+          <h1>Latest Transaction from the chain</h1>
 
           <form onSubmit={handleSubmit}>
             <div id="dropanddetails">

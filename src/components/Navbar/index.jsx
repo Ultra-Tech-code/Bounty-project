@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <Fragment>
         <nav>
-        <div className="logo">Ubiquity</div>
+        <div className="logo">chainPedia</div>
         <span className="menubtn" onClick={() => setOpenNav(true)}>
           &#9776;
         </span>
@@ -39,11 +39,18 @@ const Navbar = () => {
           {" "}
           &#10006;
         </a>
-        <a href="#">Home</a>
-        <a href="#">Contact</a>
-        <a href="#">
-          <button type="button">Connect Wallet</button>{" "}
-        </a>
+        <ul>
+          <li>
+          <Link to="/">Home</Link>
+            </li>
+          <li>
+          <Link to="/address">Address</Link>
+            </li>
+          <li>
+          <Link to="/nft">NFT</Link>
+            </li>
+          <ConnectionButton />
+          </ul>
       </div>
     </Fragment>
   )
