@@ -57,15 +57,15 @@ const NFT = () => {
     }
   };
 
-  const fetchImAGE = async () => {
-      setLoading(true);
-      const { data } = await axios.get(
-        `https://ubiquity.api.blockdaemon.com/nft/v1/${protocol}/mainnet/media/${res?.image_url}`,
-        config
-      );
-      setLoading(false);
-      console.log(data?.data);
-  }
+  // const fetchImAGE = async () => {
+  //     setLoading(true);
+  //     const { data } = await axios.get(
+  //       `https://ubiquity.api.blockdaemon.com/nft/v1/${protocol}/mainnet/media/${res?.image_url}`,
+  //       config
+  //     );
+  //     setLoading(false);
+  //     console.log(data?.data);
+  // }
   const handleEvent = async (id) => {
     let resp = result.filter((txn) => txn.id === id);
 
