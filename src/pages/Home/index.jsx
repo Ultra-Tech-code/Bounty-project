@@ -88,10 +88,10 @@ const Home = () => {
                 >
                   <option value={"ethereum"}>Ethereum</option>
                   <option value={"bitcoin"}>Bitcoin</option>
-                  <option value={"solana"}>Solana</option>
-                  <option value={"avalanche"}>Avalanche</option>
+                  <option value={"dogecoin"}>Dogecoin</option>
+                  <option value={"near"}>Near</option>
                   <option value={"algorand"}>Algorand</option>
-                  <option value={"fantom"}>Fantom</option>
+                  <option value={"xrp"}>XRP</option>
                   <option value={"polkadot"}>Polkadot</option>
                 </select>
 
